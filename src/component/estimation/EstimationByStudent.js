@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Estimation } from './Estimation';
 import { Grid } from '@mui/material';
+import { CreateEstimation } from './CreateEstimation';
 
 export const EstimationByStudent=()=>{
     return(<>
@@ -30,7 +31,8 @@ export const EstimationByStudent=()=>{
         <Estimation/>
         <Estimation/>
         <Estimation/>
-  
+        <hr/>
+        <CreateEstimation/>
     </Grid>
   </Box>
         </Typography>
