@@ -4,12 +4,12 @@ import { EstimationByStudent } from "../../component/estimation/EstimationByStud
 import { StudentHome } from "../../component/student/StudentHome"
 import { SubjectHome } from "../../component/subject/SubjectHome"
 
-export const useRoutes=(isAuthenticated)=>{
+export const useRoutes=(isAuthenticated,role)=>{
    
-    if(true){
+    if(isAuthenticated && role==='ROLE_TEACHER'){
         return(
           <Switch>
-                  <Route path="/subject" exact>
+                  <Route path="/subject/:id" exact>
                     <SubjectHome/>
                 </Route>
                 <Route path="/student" exact>

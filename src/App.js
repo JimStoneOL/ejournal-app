@@ -20,9 +20,8 @@ function App() {
       token, login, logout, userId, isAuthenticated, role
     }}>
       <Router>
-       {/* {isAuthenticated && <Navbar />} */}
-       <NavbarJSX/>
-        <div className="container">
+       {isAuthenticated && <NavbarJSX/>}
+        <div className="container" style={{marginLeft:'20%'}}>
           {routes}
           </div>
       </Router>
