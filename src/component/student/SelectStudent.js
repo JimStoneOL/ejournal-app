@@ -4,9 +4,15 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useState } from 'react';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
 
-export const Student=({data})=>{
+export const SelectStudent=({data,selectStudent})=>{
+
+    const [selected,setSelected]=useState(false)
+
     return(
      <Card sx={{ minWidth: 275 }}>
         <CardContent>
@@ -19,6 +25,9 @@ export const Student=({data})=>{
         </CardContent>
         <CardActions>
           <Button size="small">Оценки</Button>
+          <a style={{cursor: 'pointer'}} onClick={()=>setSelected(selectStudent(data.id))}>
+          {selected ? <CheckBoxIcon/> : <CheckBoxOutlineBlankIcon/>}
+        </a>
         </CardActions>
       </Card>
     )
