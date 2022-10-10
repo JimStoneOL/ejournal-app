@@ -1,7 +1,7 @@
 main {
     border-style:inset;
     height: 40vh;
-    width:100%;
+    width:90%;
     overflow-y: auto;
     scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;

@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material"
+import { CardMedia, TextField } from "@mui/material"
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -10,6 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../utils/context/AuthContext";
 import { useMessage } from "../../utils/hooks/message.hook";
 import { useHttp } from "../../utils/hooks/http.hook";
+import logo from '../../utils/img/logo.jpg'
 
 export const AuthPage=()=>{
 
@@ -41,7 +42,12 @@ export const AuthPage=()=>{
   }
 
     return(<>
-    <Card sx={{ width: '50%', margin: '0 auto',marginTop:'10%', backgroundColor:'#ebbd28',borderRadius:'20px'}}>
+    <Card sx={{ width: '50%',marginTop:'5%', backgroundColor:'#8f48cd',borderRadius:'20px'}}>
+    <CardMedia
+        component="img"
+        image={logo}
+        alt="whale"
+      />
       <CardContent>
         <LockIcon style={{width:50}}/>
       <TextField
@@ -52,7 +58,7 @@ export const AuthPage=()=>{
        variant="outlined" 
        value={form.password} 
        onChange={changeHandler}/>
-      <Button variant="contained" color="success" style={{marginLeft:'20px',marginTop:'10px'}} onClick={loginHandler}>Войти</Button>
+      <Button variant="contained" style={{marginLeft:'20px',marginTop:'10px',backgroundColor:'white', color:'black'}} onClick={loginHandler}>Войти</Button>
         </CardContent>
         </Card>
     </>)

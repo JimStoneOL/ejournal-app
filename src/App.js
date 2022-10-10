@@ -21,7 +21,7 @@ function App() {
     }}>
       <Router>
        {isAuthenticated && <NavbarJSX/>}
-        <div className="container" style={{marginLeft:'20%'}}>
+        <div className="container" style={{marginLeft:'25%'}}>
           {routes}
           </div>
       </Router>

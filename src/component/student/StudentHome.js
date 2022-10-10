@@ -28,6 +28,7 @@ export const StudentHome=()=>{
   const [form,setForm]=useState({})
   const [student, setStudent]=useState([])
 
+
   const getAllStudents = useCallback(async () => {
     try {
       const fetched = await request('http://localhost:8080/api/student/get/all', 'GET', null, {
@@ -49,11 +50,17 @@ const changeHandler = event => {
 }
 
 const pressHandler = async event => {
+  student.forEach((item)=>{
+    if(item.contact==form.contact){
+      message('Контакт уже занят')
+      throw new Error('Ошибка. Контакт уже занят')
+    }
+  })
   try {
     const data = await request('http://localhost:8080/api/student/create', 'POST', {...form},{
       Authorization: `Bearer ${token}`
     })
-    message('Студент создан')
+
     getAllStudents()
   }catch(e){}
 }
@@ -78,7 +85,7 @@ useEffect(() => {
         variant="outlined"
         onChange={changeHandler}
         value={form.firstname} 
-        style={{marginLeft:'20%'}}/>
+        />
 
       <TextField
         id="outlined-basic"
@@ -107,7 +114,7 @@ useEffect(() => {
 
     {student.map((item)=>{
         return(
-        <Student data={item}/>
+        <Student data={item} update={getAllStudents} student={student}/>
         )
        })}
     </>)    

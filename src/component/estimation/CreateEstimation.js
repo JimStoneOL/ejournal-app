@@ -3,7 +3,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Button, TextField } from '@mui/material';
@@ -11,9 +11,15 @@ import { DesktopDatePicker, LocalizationProvider, MobileDatePicker } from '@mui/
 import dayjs from 'dayjs';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { AuthContext } from '../../utils/context/AuthContext';
+import { useHttp } from '../../utils/hooks/http.hook';
+import { useMessage } from '../../utils/hooks/message.hook';
 
-export const CreateEstimation=()=>{
+export const CreateEstimation=({data,update})=>{
 
+    const {token} = useContext(AuthContext)
+    const { request, error, clearError} = useHttp()
+     const message = useMessage()
     const [date, setDate] = useState(dayjs(Date.now()));
     const [estimation, setEstimation] = useState();
     const [open, setOpen] = useState(false);
@@ -36,6 +42,34 @@ export const CreateEstimation=()=>{
     const handleChange = (event) => {
         setEstimation(event.target.value);
     }
+
+    const pressHandler=async event=>{
+
+      if(estimation==null){
+        message('Оценка не поставлена')
+        return
+      }
+
+      date.$M=date.$M+1
+      const form={
+        number:estimation,
+        date:date.$d,
+        studentId:parseInt(data.studentId),
+        subjectId:data.subjectId
+      }
+     
+      try{
+        const estimation = await request('http://localhost:8080/api/estimation/create', 'POST', {...form},{
+          Authorization: `Bearer ${token}`
+        })
+      }catch(e){}
+      update()
+    }
+
+    useEffect(() => {
+      message(error)
+      clearError()
+    }, [error, message, clearError])
 
     return(<>
      <Button onClick={handleOpen} variant="text" style={{backgroundColor:'white',marginLeft:'15%'}}>Поставить оценку</Button>
@@ -79,7 +113,7 @@ export const CreateEstimation=()=>{
           renderInput={(params) => <TextField {...params} />}
         />
         </LocalizationProvider>
-      <Button variant="contained" style={{marginLeft:'20px',marginTop:'10px'}}>Поставить</Button>
+      <Button variant="contained" style={{marginLeft:'20px',marginTop:'10px'}} onClick={pressHandler}>Поставить</Button>
     </Box>
         </Box>
       </Modal>

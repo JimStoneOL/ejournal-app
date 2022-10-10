@@ -12,7 +12,7 @@ import { useMessage } from '../../utils/hooks/message.hook';
 import { Modal, TextField } from '@mui/material';
 
 
-export const Student=({data,update,student})=>{
+export const Subject=({data,update,subject})=>{
 
   const {loading, request,error,clearError} = useHttp()
   const {token} = useContext(AuthContext)
@@ -21,6 +21,7 @@ export const Student=({data,update,student})=>{
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [form,setForm]=useState({})
+  
 
   const style = {
     position: 'absolute',
@@ -41,56 +42,53 @@ export const Student=({data,update,student})=>{
   const updatePressHandler = async event => {
     form.id=data.id
     try {
-      student.forEach((item)=>{
-        if(item.contact==form.contact){
-          message('Контакт уже занят')
-          throw new Error('Ошибка. Контакт уже занят')
+      subject.forEach((item)=>{
+        if(item.name==form.name){
+          message('Название уже занято')
+          throw new Error('Ошибка. Название уже занято')
         }
       })
-      console.log(form)
-      const data = await request('http://localhost:8080/api/student/update', 'POST', {...form},{
+      const data = await request('http://localhost:8080/api/subject/update', 'POST', {...form},{
         Authorization: `Bearer ${token}`
       })
       update()
     }catch(e){}
   }
 
+    const deleteSubject=useCallback(async (id) => { 
+        try{
+          await request(`http://localhost:8080/api/subject/delete/${id}`, 'POST', null,{
+          Authorization: `Bearer ${token}`
+        })
+        update()
+      }catch(e){
+      }
+      },[token,request])
+    
+      const deletePressHandler=event=>{
+        deleteSubject(data.id)
+      }
 
-  const deleteStudent=useCallback(async (id) => { 
-    try{
-      await request(`http://localhost:8080/api/student/delete/${id}`, 'POST', null,{
-      Authorization: `Bearer ${token}`
-    })
-    update()
-  }catch(e){
-  }
-  },[token,request])
-
-  const deletePressHandler=event=>{
-    deleteStudent(data.id)
-  }
-
-  useEffect(() => {
-    message(error)
-    clearError()
-  }, [error, message, clearError])
+      useEffect(() => {
+        message(error)
+        clearError()
+      }, [error, message, clearError])
 
     return(
-     <Card sx={{ minWidth: 275 }}>
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {data.firstname} {data.lastname}
-          </Typography>
-          <Typography variant="body2">
-            Контакты: {data.contact}
-          </Typography>
-        </CardContent>
-        <CardActions>
-        <Button variant="text"><Link to={`/estimation/${data.id}`}>Оценки</Link></Button>
-          <Button variant="text" onClick={deletePressHandler}>
+        <Card sx={{ minWidth: 275 }}>
+           <CardContent>
+             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+               {data.name}
+             </Typography>
+             <Typography variant="body2">
+               ФИО: {data.teacher}
+             </Typography>
+           </CardContent>
+           <CardActions>
+           <Button variant="text" size='small' onClick={deletePressHandler}>
                 Удалить
             </Button>
-            <Button onClick={handleOpen} variant="text">Изменить</Button>
+     <Button onClick={handleOpen} variant="text">Изменить</Button>
             <Modal
         open={open}
         onClose={handleClose}
@@ -101,40 +99,30 @@ export const Student=({data,update,student})=>{
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Редактирование
           </Typography>
-          <TextField
-        id="outlined-basic"
-        label="Имя"
-        type="text"
-        name="firstname"
-        variant="outlined"
-        onChange={changeHandler}
-        value={form.firstname} 
-        />
+          <TextField 
+         id="name"
+         variant="outlined"
+         label="Название"
+         type="text"
+         name="name"
+         value={form.name}
+         onChange={changeHandler}
+       />
 
       <TextField
-        id="outlined-basic"
-        label="Фамилия"
-        type="text"
-        name="lastname"
+        id="teacher"
         variant="outlined"
-        onChange={changeHandler}
-        value={form.lastname} 
-        />
-
-      <TextField
-        id="outlined-basic"
-        label="Контакты"
+        label="ФИО учителя"
         type="text"
-        name="contact"
-        variant="outlined"
+        name="teacher"
+        value={form.teacher}
         onChange={changeHandler}
-        value={form.contact} 
         />
         <br/>
       <Button variant="contained" onClick={updatePressHandler}>Изменить</Button>
         </Box>
       </Modal>
-        </CardActions>
-      </Card>
-    )
+           </CardActions>
+         </Card>
+       )
 }

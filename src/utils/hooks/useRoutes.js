@@ -3,19 +3,23 @@ import { AuthPage } from "../../component/auth/AuthPage"
 import { EstimationByStudent } from "../../component/estimation/EstimationByStudent"
 import { StudentHome } from "../../component/student/StudentHome"
 import { SubjectHome } from "../../component/subject/SubjectHome"
+import { About } from "../component/About"
 
 export const useRoutes=(isAuthenticated,role)=>{
    
     if(isAuthenticated && role==='ROLE_TEACHER'){
         return(
           <Switch>
-                  <Route path="/subject/:id" exact>
-                    <SubjectHome/>
-                </Route>
-                <Route path="/student" exact>
+             <Route path="/" exact>
                     <StudentHome/>
                 </Route>
-                <Route path="/" exact>
+                  <Route path="/subject" exact>
+                    <SubjectHome/>
+                </Route>
+                <Route path="/about" exact>
+                    <About/>
+                </Route>
+                <Route path="/estimation/:id" exact>
                     <EstimationByStudent/>
                 </Route>
                 <Redirect to="/" />

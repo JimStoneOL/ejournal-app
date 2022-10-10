@@ -79,7 +79,7 @@
   }
   .leftsidebar {
     width: 277px;
-    background: #4b4c50;
+    background: #779cc7;
     color: #eee;
     left: 0;
     transform: translate3d(-280px, 0px, 0px);
@@ -106,10 +106,10 @@
     
   }
   .menubar li a:hover{
-    background: #fd6f01;
+    background: #8f48cd;
     color: #fff;
    
   }
   .menubar li a:active {
-    background-color: #fd6f01;
+    background-color: #8f48cd;
   }
