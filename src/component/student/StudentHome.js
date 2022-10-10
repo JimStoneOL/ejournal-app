@@ -31,7 +31,7 @@ export const StudentHome=()=>{
 
   const getAllStudents = useCallback(async () => {
     try {
-      const fetched = await request('http://localhost:8080/api/student/get/all', 'GET', null, {
+      const fetched = await request('https://whale-e-journal.herokuapp.com/api/student/get/all', 'GET', null, {
         Authorization: `Bearer ${token}`
       })
       setStudent(fetched)
@@ -57,7 +57,7 @@ const pressHandler = async event => {
     }
   })
   try {
-    const data = await request('http://localhost:8080/api/student/create', 'POST', {...form},{
+    const data = await request('https://whale-e-journal.herokuapp.com/api/student/create', 'POST', {...form},{
       Authorization: `Bearer ${token}`
     })
 

@@ -7,7 +7,7 @@ import { About } from "../component/About"
 
 export const useRoutes=(isAuthenticated,role)=>{
    
-    if(isAuthenticated && role==='ROLE_TEACHER'){
+    if(isAuthenticated){
         return(
           <Switch>
              <Route path="/" exact>

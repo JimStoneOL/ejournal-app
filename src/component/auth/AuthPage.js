@@ -11,6 +11,7 @@ import { AuthContext } from "../../utils/context/AuthContext";
 import { useMessage } from "../../utils/hooks/message.hook";
 import { useHttp } from "../../utils/hooks/http.hook";
 import logo from '../../utils/img/logo.jpg'
+import '../../utils/styles/font.css'
 
 export const AuthPage=()=>{
 
@@ -36,7 +37,7 @@ export const AuthPage=()=>{
 
   const loginHandler = async () => {
     try {
-      const data = await request('http://localhost:8080/api/auth/signin', 'POST', {...form})
+      const data = await request('https://whale-e-journal.herokuapp.com/api/auth/signin', 'POST', {...form})
       auth.login(data.token, data.id,data.roles)
     } catch (e) {}
   }
@@ -58,7 +59,7 @@ export const AuthPage=()=>{
        variant="outlined" 
        value={form.password} 
        onChange={changeHandler}/>
-      <Button variant="contained" style={{marginLeft:'20px',marginTop:'10px',backgroundColor:'white', color:'black'}} onClick={loginHandler}>Войти</Button>
+      <Button variant="contained" style={{marginLeft:'20px',marginTop:'10px',backgroundColor:'white', color:'black'}} onClick={loginHandler}><div className="txt">Войти</div></Button>
         </CardContent>
         </Card>
     </>)

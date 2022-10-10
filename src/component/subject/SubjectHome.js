@@ -24,7 +24,7 @@ export const SubjectHome=()=>{
 
   const getAllSubjects = useCallback(async () => {
     try {
-      const fetched = await request('http://localhost:8080/api/subject/get/all', 'GET', null, {
+      const fetched = await request('https://whale-e-journal.herokuapp.com/api/subject/get/all', 'GET', null, {
         Authorization: `Bearer ${token}`
       })
       setSubject(fetched)
@@ -50,7 +50,7 @@ const pressHandler = async event => {
         throw new Error('Ошибка. Название уже занято')
       }
     })
-    const data = await request('http://localhost:8080/api/subject/create', 'POST', {...form},{
+    const data = await request('https://whale-e-journal.herokuapp.com/api/subject/create', 'POST', {...form},{
       Authorization: `Bearer ${token}`
     })
     getAllSubjects()

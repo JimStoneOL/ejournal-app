@@ -59,7 +59,7 @@ export const CreateEstimation=({data,update})=>{
       }
      
       try{
-        const estimation = await request('http://localhost:8080/api/estimation/create', 'POST', {...form},{
+        const estimation = await request('https://whale-e-journal.herokuapp.com/api/estimation/create', 'POST', {...form},{
           Authorization: `Bearer ${token}`
         })
       }catch(e){}

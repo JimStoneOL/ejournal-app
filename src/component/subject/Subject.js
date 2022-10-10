@@ -43,12 +43,12 @@ export const Subject=({data,update,subject})=>{
     form.id=data.id
     try {
       subject.forEach((item)=>{
-        if(item.name==form.name){
+        if(item.name===form.name){
           message('Название уже занято')
           throw new Error('Ошибка. Название уже занято')
         }
       })
-      const data = await request('http://localhost:8080/api/subject/update', 'POST', {...form},{
+      const data = await request('https://whale-e-journal.herokuapp.com/api/subject/update', 'POST', {...form},{
         Authorization: `Bearer ${token}`
       })
       update()
@@ -57,7 +57,7 @@ export const Subject=({data,update,subject})=>{
 
     const deleteSubject=useCallback(async (id) => { 
         try{
-          await request(`http://localhost:8080/api/subject/delete/${id}`, 'POST', null,{
+          await request(`https://whale-e-journal.herokuapp.com/api/subject/delete/${id}`, 'POST', null,{
           Authorization: `Bearer ${token}`
         })
         update()
@@ -100,6 +100,7 @@ export const Subject=({data,update,subject})=>{
             Редактирование
           </Typography>
           <TextField 
+          style={{marginTop:'2%'}}
          id="name"
          variant="outlined"
          label="Название"
@@ -110,6 +111,7 @@ export const Subject=({data,update,subject})=>{
        />
 
       <TextField
+      style={{marginTop:'2%'}}
         id="teacher"
         variant="outlined"
         label="ФИО учителя"
@@ -119,7 +121,7 @@ export const Subject=({data,update,subject})=>{
         onChange={changeHandler}
         />
         <br/>
-      <Button variant="contained" onClick={updatePressHandler}>Изменить</Button>
+      <Button variant="contained" onClick={updatePressHandler} style={{marginTop:'2%',marginLeft:'10%'}}>Изменить</Button>
         </Box>
       </Modal>
            </CardActions>

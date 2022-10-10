@@ -47,8 +47,7 @@ export const Student=({data,update,student})=>{
           throw new Error('Ошибка. Контакт уже занят')
         }
       })
-      console.log(form)
-      const data = await request('http://localhost:8080/api/student/update', 'POST', {...form},{
+      const data = await request('https://whale-e-journal.herokuapp.com/api/student/update', 'POST', {...form},{
         Authorization: `Bearer ${token}`
       })
       update()
@@ -58,7 +57,7 @@ export const Student=({data,update,student})=>{
 
   const deleteStudent=useCallback(async (id) => { 
     try{
-      await request(`http://localhost:8080/api/student/delete/${id}`, 'POST', null,{
+      await request(`https://whale-e-journal.herokuapp.com/api/student/delete/${id}`, 'POST', null,{
       Authorization: `Bearer ${token}`
     })
     update()
@@ -102,6 +101,7 @@ export const Student=({data,update,student})=>{
             Редактирование
           </Typography>
           <TextField
+          style={{marginTop:'2%'}}
         id="outlined-basic"
         label="Имя"
         type="text"
@@ -112,6 +112,7 @@ export const Student=({data,update,student})=>{
         />
 
       <TextField
+        style={{marginTop:'2%'}}
         id="outlined-basic"
         label="Фамилия"
         type="text"
@@ -122,6 +123,7 @@ export const Student=({data,update,student})=>{
         />
 
       <TextField
+      style={{marginTop:'2%'}}
         id="outlined-basic"
         label="Контакты"
         type="text"
@@ -131,7 +133,7 @@ export const Student=({data,update,student})=>{
         value={form.contact} 
         />
         <br/>
-      <Button variant="contained" onClick={updatePressHandler}>Изменить</Button>
+      <Button variant="contained" onClick={updatePressHandler} style={{marginTop:'2%',marginLeft:'10%'}}>Изменить</Button>
         </Box>
       </Modal>
         </CardActions>

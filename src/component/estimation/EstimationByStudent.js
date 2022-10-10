@@ -24,10 +24,9 @@ export const EstimationByStudent=()=>{
 
     const getAllEstimationByStudent = useCallback(async () => {
       try {
-        const fetched = await request(`http://localhost:8080/api/estimation/get/by/${name}`, 'GET', null, {
+        const fetched = await request(`https://whale-e-journal.herokuapp.com/api/estimation/get/by/${name}`, 'GET', null, {
           Authorization: `Bearer ${token}`
         })  
-        console.log(fetched)
         setEstimation(fetched.subjectEstimations)
         setStudentName(fetched.name)
       } catch (e) {}

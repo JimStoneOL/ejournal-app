@@ -28,7 +28,7 @@ export const SubjectEstimation=({data,studentId,update})=>{
 
     const getSubjectId = useCallback(async () => {
         try{
-          const subject = await request(`http://localhost:8080/api/subject/get/by/${data.subject}`, 'GET', null, {
+          const subject = await request(`https://whale-e-journal.herokuapp.com/api/subject/get/by/${data.subject}`, 'GET', null, {
             Authorization: `Bearer ${token}`
           })
         setSubjectId(subject.id)

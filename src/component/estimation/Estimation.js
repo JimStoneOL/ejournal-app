@@ -13,7 +13,7 @@ export const Estimation=({data,update})=>{
 
   const deleteEstimation=useCallback(async (id) => { 
     try{
-      await request(`http://localhost:8080/api/estimation/delete/${id}`, 'POST', null,{
+      await request(`https://whale-e-journal.herokuapp.com/api/estimation/delete/${id}`, 'POST', null,{
       Authorization: `Bearer ${token}`
     })
     update()
