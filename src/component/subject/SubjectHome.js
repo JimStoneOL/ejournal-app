@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { TextField } from '@mui/material';
+import { Alert, TextField } from '@mui/material';
 import { useMessage } from '../../utils/hooks/message.hook';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../utils/context/AuthContext';
@@ -21,6 +21,8 @@ export const SubjectHome=()=>{
   const { request, error, clearError,loading} = useHttp()
   const [form,setForm]=useState({})
   const [subject, setSubject]=useState([])
+  const [formError,setFormError]=useState(null)
+
 
   const getAllSubjects = useCallback(async () => {
     try {
@@ -43,6 +45,19 @@ const changeHandler = event => {
 }
 
 const pressHandler = async event => {
+  if(form.name.indexOf(' ') >= 0){
+    form.name=null
+    setFormError('В поле название есть пробелы')
+  }
+  else if((form.teacher.split(' ').length-1)>2){
+    console.log(form.teacher.split(' ').length-1)
+    form.teacher=null
+    setFormError('В поле ФИО больше 2-х пробелов')
+  }else{
+    setFormError(null)
+  }
+  form.name = form.name.replace(/[^a-zA-Zа-яА-Я ]/g, "");
+    form.teacher = form.teacher.replace(/[^a-zA-Zа-яА-Я ]/g, "");
   try {
     subject.forEach((item)=>{
       if(item.name==form.name){
@@ -87,6 +102,7 @@ useEffect(() => {
         value={form.teacher}
         onChange={changeHandler}
         />
+      {formError && <Alert severity="error">{formError}</Alert>}
 
       <Button variant="contained" style={{marginLeft:'20px',marginTop:'10px'}} onClick={pressHandler}>Добавить</Button>
 

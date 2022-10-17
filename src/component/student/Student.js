@@ -9,7 +9,7 @@ import { useHttp } from '../../utils/hooks/http.hook';
 import { AuthContext } from '../../utils/context/AuthContext';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useMessage } from '../../utils/hooks/message.hook';
-import { Modal, TextField } from '@mui/material';
+import { Alert, Modal, TextField } from '@mui/material';
 
 
 export const Student=({data,update,student})=>{
@@ -21,6 +21,8 @@ export const Student=({data,update,student})=>{
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [form,setForm]=useState({})
+  const [formError,setFormError]=useState(null)
+
 
   const style = {
     position: 'absolute',
@@ -40,6 +42,22 @@ export const Student=({data,update,student})=>{
 
   const updatePressHandler = async event => {
     form.id=data.id
+    if(form.firstname.indexOf(' ') >= 0){
+      form.firstname=null
+      setFormError('В поле имя есть пробелы')
+    }
+   else if(form.lastname.indexOf(' ') >= 0){
+      form.lastname=null
+      setFormError('В поле фамилия есть пробелы')
+    }
+   else if(form.contact.indexOf(' ') >= 0){
+      form.contact=null
+      setFormError('В поле контакты есть пробелы')
+    }else{
+    setFormError(null)
+    }
+    form.firstname = form.firstname.replace(/[^a-zA-Zа-яА-Я ]/g, "");
+    form.lastname = form.lastname.replace(/[^a-zA-Zа-яА-Я ]/g, "");
     try {
       student.forEach((item)=>{
         if(item.contact==form.contact){
@@ -132,6 +150,8 @@ export const Student=({data,update,student})=>{
         onChange={changeHandler}
         value={form.contact} 
         />
+      {formError && <Alert severity="error">{formError}</Alert>}
+
         <br/>
       <Button variant="contained" onClick={updatePressHandler} style={{marginTop:'2%',marginLeft:'10%'}}>Изменить</Button>
         </Box>

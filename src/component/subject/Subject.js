@@ -9,7 +9,7 @@ import { useHttp } from '../../utils/hooks/http.hook';
 import { AuthContext } from '../../utils/context/AuthContext';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useMessage } from '../../utils/hooks/message.hook';
-import { Modal, TextField } from '@mui/material';
+import { Alert, Modal, TextField } from '@mui/material';
 
 
 export const Subject=({data,update,subject})=>{
@@ -21,6 +21,8 @@ export const Subject=({data,update,subject})=>{
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [form,setForm]=useState({})
+  const [formError,setFormError]=useState(null)
+
   
 
   const style = {
@@ -41,6 +43,19 @@ export const Subject=({data,update,subject})=>{
 
   const updatePressHandler = async event => {
     form.id=data.id
+    if(form.name.indexOf(' ') >= 0){
+      form.name=null
+      setFormError('В поле название есть пробелы')
+    }
+    else if((form.teacher.split(' ').length-1)>2){
+      console.log(form.teacher.split(' ').length-1)
+      form.teacher=null
+      setFormError('В поле ФИО больше 2-х пробелов')
+    }else{
+      setFormError(null)
+    }
+    form.name = form.name.replace(/[^a-zA-Zа-яА-Я ]/g, "");
+    form.teacher = form.teacher.replace(/[^a-zA-Zа-яА-Я ]/g, "");
     try {
       subject.forEach((item)=>{
         if(item.name===form.name){
@@ -120,6 +135,7 @@ export const Subject=({data,update,subject})=>{
         value={form.teacher}
         onChange={changeHandler}
         />
+      {formError && <Alert severity="error">{formError}</Alert>}
         <br/>
       <Button variant="contained" onClick={updatePressHandler} style={{marginTop:'2%',marginLeft:'10%'}}>Изменить</Button>
         </Box>
